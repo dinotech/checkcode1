@@ -1,0 +1,373 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <pointofsales translate="label">
+            <label>Wtech POS</label>
+            <sort_order>402</sort_order>
+        </pointofsales>
+    </tabs>
+    <sections>
+	 <!--Code for show multiple payment module in config-->
+	  <payment>
+	  	<groups>
+		  <mypayment translate="label">
+			  <label>Multipayment</label>
+			  <show_in_default>1</show_in_default>
+			  <show_in_website>1</show_in_website>
+			  <show_in_store>1</show_in_store>
+			  <fields>
+				  <active translate="label">
+					  <label>Enabled</label>
+					  <frontend_type>select</frontend_type>
+					  <source_model>adminhtml/system_config_source_yesno</source_model>
+					  <sort_order>1</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				  </active>
+				  <title translate="label">
+						  <label>Title</label>
+						  <frontend_type>text</frontend_type>
+						  <sort_order>3</sort_order>
+						  <show_in_default>1</show_in_default>
+						  <show_in_website>1</show_in_website>
+						  <show_in_store>1</show_in_store>
+				  </title>
+				  <order_status translate="label">
+					  <label>New Order Status</label>
+					  <frontend_type>select</frontend_type>
+					  <source_model>adminhtml/system_config_source_order_status_newprocessing</source_model>
+					  <sort_order>7</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				  </order_status>	
+				  <allowspecific translate="label">
+					  <label>Payment from Applicable Countries</label>
+					  <frontend_type>allowspecific</frontend_type>
+					  <sort_order>10</sort_order>
+					  <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				  </allowspecific>
+				  <specificcountry translate="label">
+					  <label>Payment from Specific Countries</label>
+					  <frontend_type>multiselect</frontend_type>
+					  <sort_order>11</sort_order>
+					  <source_model>adminhtml/system_config_source_country</source_model>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+					  <can_be_empty>1</can_be_empty>
+				  </specificcountry>
+			  </fields>
+		  </mypayment>
+		  <voucher translate="label">
+			  <label>Voucher</label>
+			  <show_in_default>10</show_in_default>
+			  <show_in_website>10</show_in_website>
+			  <show_in_store>10</show_in_store>
+			  <fields>
+				  <active translate="label">
+					  <label>Enabled</label>
+					  <frontend_type>select</frontend_type>
+					  <source_model>adminhtml/system_config_source_yesno</source_model>
+					  <sort_order>1</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				  </active>
+				  <title translate="label">
+						  <label>Title</label>
+						  <frontend_type>text</frontend_type>
+						  <sort_order>3</sort_order>
+						  <show_in_default>1</show_in_default>
+						  <show_in_website>1</show_in_website>
+						  <show_in_store>1</show_in_store>
+				  </title>
+				  <order_status translate="label">
+					  <label>New Order Status</label>
+					  <frontend_type>select</frontend_type>
+					  <source_model>adminhtml/system_config_source_order_status_newprocessing</source_model>
+					  <sort_order>7</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				  </order_status>	
+				  <allowspecific translate="label">
+					  <label>Payment from Applicable Countries</label>
+					  <frontend_type>allowspecific</frontend_type>
+					  <sort_order>10</sort_order>
+					  <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				  </allowspecific>
+				  <specificcountry translate="label">
+					  <label>Payment from Specific Countries</label>
+					  <frontend_type>multiselect</frontend_type>
+					  <sort_order>11</sort_order>
+					  <source_model>adminhtml/system_config_source_country</source_model>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+					  <can_be_empty>1</can_be_empty>
+				  </specificcountry>
+			  </fields>
+		  </voucher>
+	  	</groups>
+	  </payment>
+      <pos translate="label" module="pointofsales">
+            <label>Point Of Sales</label>
+            <tab>pointofsales</tab>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+			<!--Receipt tab code-->
+            <groups>
+				<pointofsales translate="label comment">
+                    <label>Receipt</label>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <!--<comment><![CDATA[This is a <strong>Point Of Sales</strong> Product <em>section</em>(Entered product's are treated as Featured Product).]]></comment>-->
+                    <fields>
+						<receipt_header translate="label comment">
+                            <label>Header</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </receipt_header>
+                    </fields>
+					<fields>
+						<receipt_footer translate="label comment">
+                            <label>Footer</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </receipt_footer>
+                    </fields>
+					<fields>
+						<receipt_width translate="label comment">
+                            <label>Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </receipt_width>
+                    </fields>
+					<fields>
+						<receipt_margin_left translate="label comment">
+                            <label>Margin left</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </receipt_margin_left>
+                    </fields>
+					<!--<fields>
+						<receipt_unit translate="label comment">
+                            <label>Unit</label>
+                            <frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </receipt_unit>
+                    </fields>-->
+					<fields>
+						<store_name translate="label comment">
+                            <label>Store name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </store_name>
+                    </fields>
+                </pointofsales>
+            </groups>
+			<!--Credit memo tab code-->
+			<groups>
+				<credit_memo translate="label comment">
+                    <label>Credit Memo ticket</label>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+						<ticket_header translate="label comment">
+                            <label>Header</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </ticket_header>
+                    </fields>
+					<fields>
+						<ticket_footer translate="label comment">
+                            <label>Footer</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </ticket_footer>
+                    </fields>
+					<fields>
+						<ticket_width translate="label comment">
+                            <label>Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </ticket_width>
+                    </fields>
+					<fields>
+						<ticket_margin_left translate="label comment">
+                            <label>Margin left</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </ticket_margin_left>
+                    </fields>
+					<fields>
+						<exp_date_week translate="label">
+							<label>Expiration Date</label>
+                            <frontend_type>text</frontend_type>
+							<comment>No of weeks ex:1,2,3</comment>
+                            <sort_order>8</sort_order>
+                            <show_in_default>4</show_in_default>
+						</exp_date_week>
+                    </fields>
+					<fields>
+						<exp_date_month translate="label">
+                            <frontend_type>text</frontend_type>
+							<comment>No of months ex:1,2,3</comment>
+                            <sort_order>9</sort_order>
+                            <show_in_default>4</show_in_default>
+						</exp_date_month>
+                    </fields>
+                </credit_memo>
+            </groups>
+			<!--Notification tab code-->
+			<groups>
+				<notifications translate="label comment">
+                    <label>Notification</label>
+                    <sort_order>51</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <comment><![CDATA[This is a <strong>Guest Customer</strong> Detail section (These are also used as Default values for other customers).]]></comment>
+                    <fields>
+						<guest_email translate="label comment">
+                            <label>Guest Account Email</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_email>
+                    </fields>
+					<fields>
+						<guest_fname translate="label comment">
+                            <label>Guest Account Firstname</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>11</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_fname>
+                    </fields>
+					<fields>
+						<guest_lname translate="label comment">
+                            <label>Guest Account Lastname</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_lname>
+                    </fields>
+					<fields>
+						<guest_address1 translate="label comment">
+                            <label>Guest Account Address</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>13</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_address1>
+                    </fields>
+					<fields>
+						<guest_address2 translate="label comment">
+                            <!--<label>Guest Account Address</label>-->
+                            <frontend_type>text</frontend_type>
+                            <sort_order>14</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_address2>
+                    </fields>
+					<fields>
+						<guest_city translate="label comment">
+                            <label>Guest Account City</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_city>
+                    </fields>
+					<fields>
+						<guest_zip translate="label comment">
+                            <label>Guest Account Zip</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>16</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_zip>
+                    </fields>
+					<fields>
+						<guest_region translate="label comment">
+                            <label>Guest Account Region</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>17</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_region>
+                    </fields>
+					<fields>
+						<guest_phone translate="label comment">
+                            <label>Guest Account Phone</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>18</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_phone>
+                    </fields>
+					<fields>
+						<guest_fax translate="label comment">
+                            <label>Guest Account Fax</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>19</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </guest_fax>
+                    </fields>
+					<fields>
+						<fav_product_status translate="label comment">
+                            <label>Show Favourite Products in POS Module</label>
+                            <comment>Select status for show favourite products in pos module</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </fav_product_status>
+                    </fields>
+					<fields>
+						<default_pagging_value translate="label comment">
+                            <label>Show total records default</label>
+							<comment>This value is show default in grid's view section</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </default_pagging_value>
+                    </fields>
+					<fields>
+						<view_pagging_values translate="label comment">
+                            <label>View values for pagging</label>
+							<comment>This values are showing in grid's pagging(only numeric values with comma seperated)</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>22</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </view_pagging_values>
+                    </fields>
+					<fields>
+						<pos_order_store translate="label comment">
+                            <label>Select Store</label>
+                            <comment>Select store name for pos orders</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>pointofsales/storename</source_model>
+                            <sort_order>23</sort_order>
+                            <show_in_default>4</show_in_default>
+                        </pos_order_store>
+                    </fields>
+                </notifications>
+			</groups>
+        </pos>			
+   </sections>
+
+</config>

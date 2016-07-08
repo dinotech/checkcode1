@@ -1,0 +1,1030 @@
+
+<style type="text/css">
+
+#adduser{
+	    width: 100%;
+    height: 1092px;
+    position: absolute;
+	        top: 0;
+			
+    background-color: rgba(0,0,0,.4);
+	z-index: 99999999;
+}
+
+#userform table tr td {
+	    padding: 10px;
+}
+
+#userform{
+	text-align: -webkit-center;
+	padding: 34px;
+	position: relative;
+    margin: 64px 329px 29px 110px;;
+    z-index: 99999999999999;
+	background-color: whitesmoke;
+}
+.tab-res
+{
+	float: right;
+    margin-right: 20px;
+    padding-top: 12px;
+}
+.rep{
+	border: 1px solid #DA9999;
+    width: 96%;
+    margin: auto;}
+#numbers{ height: 32px;}
+
+#ds { float:left; display:none; margin-left:6px;}
+#src { margin-top: 0px ;
+    width: 100px;     color: #fff;
+    background-color: #428bca; }
+</style>
+
+<?php
+$data['id']="pt";
+$this->load->view('admin/vwHeader',$data);
+?>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+ <div id="page-wrapper">
+  <div class="row">
+          <div class="col-lg-12" style="float:left; width:20%;">
+            <h2><small style="color: brown;">Manage Report</small></h2>
+            </div>
+            
+            <div class="tab-res" >
+      
+  <form method="post" enctype="multipart/form-data" action="" onsubmit="return validate()">
+ <div class="mdiv" style="float:left;">
+ 
+ <select name='numbers' id='numbers' >
+ <option value='0' selected='selected'>-- Select Category --</option>
+ <option value="1" >Dealer</option>
+ <option value="2" >Godown</option>
+ <option value="3" >Sales</option>
+ <option value="4" >Stock Purchase</option>
+ <option value="7" >All Party</option>
+ 
+ <!--<option value="5" >Stock In Rent(outword)</option>
+ <option value="6" >Shri cement stock</option>-->
+ </select></div>&nbsp;
+ <div id="ds" >
+<input type="date" id="sdate" placeholder="Start Date" name="startdate" onchange="dt();"/>
+<input type="date" id="edate" placeholder="End Date" name="enddate"/>
+ </div>
+ <input type="submit"  class="btn" id="src" name="submit" value="Search" />
+ </form>
+ </div>
+         </div>   <hr/>
+</div>
+ <?php if(isset($_POST['submit'])&& $_POST['numbers']==2){
+	?>
+    <!--<form name="select_godown" method="post" id="select_godown">-->
+	
+   
+	<form name="select_godown" method="post" id="select_godown">
+    <table align="center">
+    <tr> 
+    <th>Select Godown<br/><br/><br/><br/></th><td>
+    <select name="selectg"  id="selectg">
+    <option value="first">----Select----</option>
+    <?php foreach($row as $rows){
+		//onchange="change_val1(<?php echo $_POST['numbers'];)"
+		?>
+    <option value="<?php echo $rows['g_id'];?>"><?php echo $rows['g_name'];?></option>
+	
+	<?php }?>
+    </select><br/><br/><br/><br/></td>
+  <!--  Date From:<input type="text" id="datepicker" name="from"/>
+    Date To:<input type="text" id="datepicker" name="to"/>-->
+    <td>
+    <input type="hidden" name="numbe" value="2" id="numbe"/></td></tr></table>
+	 <div style="text-align:center">Date From:<input type="text" id="datepicker" name="from"/>
+    Date To:<input type="text" id="datepicker1" name="to"/>
+  
+      <br/><br/><br/>
+<!--    <input type="submit"  class="btn" id="src" name="submit2" value="submit" onclick="nextgodown()" />
+-->    
+<input type="button"  class="btn" id="src" name="submit2" value="submit" onclick="nextgodown()" />
+</div></form>
+	
+	<?php } ?>
+ <?php if(isset($_POST['submit']) && $_POST['numbers']==1){ ?> 
+ <form name="select_deal" method="post" id="select_deal" >
+ <table align="center">
+ <tr>
+ <th>Select Dealer<br/><br/><br/><br/></th>
+ <td>
+ <!--<form name="select_deal" method="post" id="select_deal" >-->
+ <select name="selectr" id="selectr" >
+  <option value="first">----Select----</option>
+  <?php foreach($row as $rows){
+	  
+	  //onchange="change_val(<?php echo $_POST['numbers'] closephptag)"
+	   ?><!--onchange="change_val(<?php echo $_POST['numbers'] ?>)"-->
+  <option value="<?php echo $rows['dealer_id'];?>"><?php echo $rows['d_name'];?></option>
+  <?php } ?>
+ </select><br/><br/><br/><br/></td><td>
+ <input type="hidden" name="numb" value="1" id="numb" />
+ <!--</form>-->
+ </td>
+ </tr>
+ </table>
+  <div style="text-align:center">Date From:<input type="text" id="datepicker2" name="from"/>
+    Date To:<input type="text" id="datepicker3" name="to"/><br/><br/><br/>
+    <input type="button"  class="btn" id="src" name="submit3" value="submit" onclick="nextdealer()" />
+    <!--<input type="submit"  class="btn" id="src" name="submit3" value="submit" />-->
+    </div></form>
+ 
+ 
+  
+ <?php }
+ if(isset($_POST['numbe'])&&$_POST['numbe']==2){
+	 ?>
+     <h4 style="margin-left: 27px; color: #C50808;">Godown Report :<?php echo $row[0]['g_name'];?></h4>
+	 <?php if(!empty($row[0]['g_name'])){echo "&nbsp &nbsp &nbsp Godown Name: ";echo $row[0]['g_name']."<br/>"; }?>
+     <?php if(!empty($row[0]['g_address'])){echo "&nbsp &nbsp &nbsp Address: "; echo $row[0]['g_address']."<br/>"; }?>
+     <?php if(!empty($row[0]['ph_no']) && $row[0]['ph_no']!=0){ echo "&nbsp &nbsp &nbsp Phone No.: "; echo $row[0]['ph_no']."<br/>"; }?>
+     <?php if(!empty($row[0]['mob']) && $row[0]['mob']!=0){ echo "&nbsp &nbsp &nbsp Mobile : "; echo $row[0]['mob']."<br/>"; }?>
+     <?php if(!empty($row[0]['city'])){ echo "&nbsp &nbsp &nbsp City : "; echo $row[0]['city']."<br/>"; }?>
+     <?php if(!empty($row[0]['state'])){ echo "&nbsp &nbsp &nbsp State : "; echo $row[0]['state']."<br/>"; }?>
+   
+      <br/><br/><br/>
+	 <div id="ddata" class="rep"> 
+      <table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <!--<th>Dealer Name</th>-->
+         <th>Date</th>
+         <th>Transaction</th>
+         <th>Party Name</th>
+         <th>No. of Bags Inword</th>
+         <th>No. of Bags Outword</th>
+         <th>OPC/PPC</th>
+         <th>Type</th>
+         <!--<th>Pay Flow</th>
+         <th>Credit</th>
+         <th>Debit</th>-->
+         <!--<th>Purchase</th>
+         <th>Sale</th>
+         <th>Rent</th>-->
+         </tr>
+         <?php
+		 $sum=0;$credit=0;$debit=0;$s=0;
+			/*	
+		  foreach($inwardg as $inwardgs){
+			 
+			 ?>
+			 <tr><td><?php 
+			 
+			 $originalDate = $inwardgs['date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+			 
+			 echo $newDate;?></td>
+             <td>SHREE CEMENT<?php //echo $inwardgs['d_name'];?></td>
+             <td><?php $sum_in=$sum_in+$inwardgs['noofbags'];
+			 echo $inwardgs['noofbags'];?></td>
+             <td>-</td>
+             <td>-</td>
+			 <td>-</td>
+             <td>-</td>             
+             <td>-</td></tr>
+			 <?php
+			 }
+		 
+		  foreach($outwardg as $outwardgs){
+			 
+			 ?>
+			 <tr><td><?php 
+			 
+			 $originalDate = $outwardgs['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+			 
+			 echo $newDate;?></td>
+             <td><?php echo $outwardgs['d_name'];?></td>
+              <td>-</td>
+              <td><?php $sum=$sum+$outwardgs['no_of_begs'];
+			 echo $outwardgs['no_of_begs'];?></td>
+             <td>-</td>
+			 <td>-</td>
+             <td>-</td>             
+             <td><?php echo $outwardgs['r_price'];?></td></tr>
+			 <?php
+			 }
+			 foreach($rentg as $rentgs){
+			 ?>
+         		 <tr>
+        <td><?php 
+		$originalDate = $rentgs['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		
+		
+		echo $newDate;  ?></td>
+        <td><?php echo $rentgs['d_name'];?></td>
+         <td>-</td>
+         <td><?php 
+		$sum=$sum-$rentgs['no_of_begs'];
+		echo "-".$rentgs['no_of_begs'];?></td>
+        <td><?php if($rentgs['pay_flow']==1){ echo "Cash";} else if($rentgs['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+        <td>-</td>
+        <td>-</td>
+        <td><?php echo $rentgs['rprice'];?></td>
+        </tr>
+         <?php }*/ foreach($saleg as $salegs){?>
+         <tr><td><?php 
+		 $originalDate = $salegs['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		 
+		 echo $newDate;?></td><td>Sale</td>
+          <td><?php echo $salegs['d_name'];?></td>
+           <td>-</td>
+           <td><?php 
+		  $sum=$sum+$salegs['no_of_bags'];
+		  //echo "-".$salegs['no_of_bags'];
+		  echo $salegs['no_of_bags'];
+		  ?></td>
+          <td><?php if($salegs['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+          <td><?php if($salegs['t_nt']==1){ echo "Cement";} if($salegs['t_nt']==2) { echo "Shree Cement"; }?></td>
+          <!--<td><?php if($salegs['pay_flow']==1){ echo "Cash";} else if($salegs['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+          <!--<td>-</td>-->
+          <!--<td><?php $s=$salegs['prices']*$salegs['no_of_bags'];echo $s;$credit=$credit+$s;//echo $salegs['prices'];?></td>
+          <td>-</td>-->
+          </tr>
+         
+         <?php } 
+		 $sum1=0;
+		 foreach($purchaseg as $purchasegs){
+			 ?>
+             <tr>
+      <td><?php 
+	  $originalDate = $purchasegs['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+	  
+	  echo $newDate; ?></td><td>Purchase</td>
+      <td><?php echo $purchasegs['d_name'];?></td>
+       <!--<td>-</td>-->
+       <td><?php 
+	  $sum1=$sum1+$purchasegs['no_of_begs'];
+	  echo $purchasegs['no_of_begs'];?></td>
+      <td>-</td>
+      <td><?php if($purchasegs['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+      <td><?php if($purchasegs['t_nt']==1){ echo "Cement";} if($purchasegs['t_nt']==2) { echo "Shree Cement"; }?></td>
+      <!--<td><?php if($purchasegs['pay_flow']==1){ echo "Cash";} else if($purchasegs['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+      <td>-</td>
+      <td><?php $s=$purchasegs['price']*$purchasegs['no_of_begs'];echo $s;$debit=$debit+$s;//echo $purchasegs['price']; ?></td>
+      <!--<td>-</td>-->
+      <!--<td>-</td>-->
+			 <?php }
+		 	 ?>
+         </thead><?php  if(empty($saleg)&&empty($outwardg)&&empty($rentg)&&empty($purchaseg)){echo "<tr><td></td><td></td><td>No record found</td><td></td><td></td><td></td></tr>";}else{   ?>
+         <tr><td>Total:</td><td></td><td></td><td><?php echo $sum1;$sum1m=$sum1/20;echo "&nbsp&nbsp(".$sum1m." metricton)"; ?></td><td><?php echo $sum;$sum_m=$sum/20;echo "&nbsp&nbsp(".$sum_m." metricton)"; ?></td><td></td><td></td><!--<td><?php echo $credit;?></td><td><?php echo $debit;?></td>--></tr><?php }?></table>
+	 
+	 <?php
+     }
+ if(isset($_POST['submit']) && $_POST['numbers']==7){?>
+ <h4 style="margin-left: 27px; color: #C50808;">All Party Report :</h4>
+ <div id="ddata" class="rep"> 
+      <table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <th>Dealer Name</th>
+         <th>Date</th>
+         <th>Site Name</th>
+         <th>No. of Bags</th>
+         <th>OPC/PPC</th>
+         <th>Pay Flow</th>
+         <th>Purchase</th>
+         <th>Sale</th>
+         <th>Rent</th>
+         </tr>
+         </tr>
+ <?php    foreach($sale as $sales){
+		  ?>
+		  <tr><td><?php echo $sales['d_name'];?></td><td><?php 
+		  $originalDate = $sales['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		  
+		  echo $newDate;?></td>
+          <td>-</td>
+          <td><?php 
+		  $sum=$sum-$sales['no_of_bags'];
+		  echo "-".$sales['no_of_bags'];?></td>
+          <td><?php if($sales['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+          <td><?php if($sales['pay_flow']==1){ echo "Cash";} else if($sales['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+          <td>-</td>
+          <td><?php echo $sales['prices'];?></td>
+          <td>-</td>
+          </tr>
+		  <?php }
+	  
+	  foreach($stockpurchase as $stockpurchases){
+		  
+	  ?><tr>
+      <td><?php echo $stockpurchases['d_name'];?></td>
+      <td><?php 
+	  $originalDate = $stockpurchases['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+	  
+	  echo $newDate; ?></td>
+      <td>-</td>
+      <td><?php 
+	  $sum=$sum+$stockpurchases['no_of_begs'];
+	  echo $stockpurchases['no_of_begs'];?></td>
+      <td><?php if($stockpurchases['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+      <td><?php if($stockpurchases['pay_flow']==1){ echo "Cash";} else if($stockpurchases['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+      <td><?php echo $stockpurchases['price']; ?></td>
+      <td>-</td>
+      <td>-</td>
+     <!-- <td><?php echo $stockpurchases['price'];?></td>
+         <td><?php echo $stockpurchases['no_of_begs'];?></td>
+         <td><?php echo $stockpurchases['metricton']; ?></td>
+         <td><?php if($stockpurchases['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php if($stockpurchases['t_nt']==1){ echo "Cement";} if($rows['t_nt']==2) { echo "Shi Cement"; }?></td>
+         <td><?php echo $stockpurchases['date_time'];?></td>
+         <td><?php echo $stockpurchases['g_name'];?></td>
+         <td><?php echo $stockpurchases['other_date']; ?></td>
+         <td></td>
+         <td><?php if($stockpurchases['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Other";}?></td>        
+         
+      -->
+      </tr>
+      <?php } if(empty($stockinrent)&&empty($rent)&&empty($sale)&&empty($stockpurchase)){echo "<tr><td></td><td></td><td>No records found</td><td></td><td></td><td></td></tr>";}else {?>
+      <tr><td>Total:</td><td></td><td></td><td><?php echo $sum;  $sum=$sum/20;echo "&nbsp&nbsp(".$sum." metricton)"; ?></td><td></td><td></td><td></td></tr>
+      <?php }?></table>
+            
+ </div>
+ 
+ 
+ <?php }
+ if(isset($_POST['numb']) && $_POST['numb']==1 ){ ?>
+ <h4 style="margin-left: 27px; color: #C50808;">Dealer Report :<?php echo $row[0]['d_name'];?></h4>
+ <!--<div id="ddata" class="rep">-->
+ <?php //print_r($stockpurchase);die;?>
+  <!--<table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <th>Sr.No.</th>
+         <th>Dealer Name</th>
+         <th>Address</th>
+         <th>Phone No.</th>
+         <th>Mobile</th></tr></thead>
+    <?php $i=1;foreach($row as $rows){ ?>
+      <tr>
+         <td><?php echo $i;?></td>
+         <td><?php echo $rows['d_name'];?></td>
+         <td><?php echo $rows['d_address'];?></td>
+         <td><?php echo $rows['phone'];?></td>
+         <td><?php echo $rows['mobile'];?></td>
+      </tr><?php $i++;} ?>
+      </table>-->
+      <!--Sr. No.	<?php $i =1;echo $i;?><br/>-->
+       <?php if(!empty($row[0]['d_name'])){echo "&nbsp &nbsp &nbsp  Dealer Name: ";  echo $row[0]['d_name']."<br/>"; }?>
+       <?php if(!empty($row[0]['d_address'])){ echo "&nbsp &nbsp &nbsp	Address: "; echo $row[0]['d_address']."<br/>"; }?>
+       <?php if(!empty($row[0]['phone']) && $row[0]['phone']!=0){ echo "&nbsp &nbsp &nbsp Phone No.: "; echo $row[0]['phone']."<br/>"; }?>
+       <?php if(!empty($row[0]['mobile']) && $row[0]['mobile']!=0){ echo "&nbsp &nbsp &nbsp	Mobile : "; echo $row[0]['mobile']."<br/>"; }?><br/><br/><br/><br/>
+     <div id="ddata" class="rep"> 
+      <table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <!--<th>Dealer Name</th>-->
+         <th>Date</th>
+         <th>Transaction</th>
+         <th>No. of Bags</th>
+         <th>OPC/PPC</th>
+         <!--<th>Credit</th>
+         <th>CreditDebit</th>-->
+         <!--<th>Pay Flow</th>-->
+         <!--<th>Purchase</th>
+         <th>Sale</th>
+         <th>Rent</th>-->
+         <th>Credit</th>
+         <th>Debit</th>
+         <!--<th>Amount</th>-->
+         <!--<th>Credit/Debit</th>-->
+         <!--<th>Rent Price</th>
+         <th>No. Of Bags</th>
+         <th>Metricton</th>
+         <th>OPC/PPC</th>
+         <th>T/NT</th>
+         <th>Date & Time</th>
+         <th>Godown</th>
+         
+         <th>Date</th>
+         <th>Site Name</th>
+         <th>Payment Flow</th>
+         <th>Challan No.</th>-->
+         </tr>
+         </tr>
+        <!-- <?php foreach($stockinrent as $rows){
+			 
+		// echo '<pre>';print_r($rows);die;
+		?>
+         <tr>
+         <!--<td><?php //echo $rows['d_name'];?></td>-->
+         <!--<td><?php echo $rows['r_price'];?></td>
+         <td><?php echo $rows['no_of_begs'];?></td>
+         <td><?php echo $rows['metricton']; ?></td>
+         <td><?php if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php if($rows['t_nt']==1){ echo "Cement";} if($rows['t_nt']==2) { echo "Shi Cement"; }?></td>
+         <td><?php echo $rows['date'];?></td>
+         <td><?php echo $rows['g_name'];?></td>-->
+         <!--<td><?php //if($rows['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Other";}?></td>-->        
+        <!-- <td><?php echo $rows['other_date'];?></td>
+      </tr><?php } ?>-->
+      <?php
+	  $sum=0;$credit=0;$debit=0;/*
+	   foreach($stockinrent as $rows){?>
+      <tr><td><?php 
+	  $originalDate = $rows['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+	  
+	  echo $newDate;?></td>
+      <td>-</td>
+      <td><?php $sum=$sum+$rows['no_of_begs']; echo $rows['no_of_begs']; ?></td>
+      <td><?php if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td><?php echo $rows['r_price']; ?></td></tr>
+      <?php } ?>
+      <?php 
+	  
+	  //$sum=0;
+	  foreach($rent as $rents){
+		?>
+        <tr>
+        <td><?php 
+		$originalDate = $rents['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		
+		echo $newDate;  ?></td>
+        <td><?php echo $rents['s_name'];?></td>
+        <td><?php 
+		$sum=$sum-$rents['no_of_begs'];
+		echo "-".$rents['no_of_begs'];?></td>
+        <td><?php if($rents['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+        <td><?php if($rents['pay_flow']==1){ echo "Cash";} else if($rents['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+        <td>-</td>
+        <td>-</td>
+        <td><?php echo $rents['rprice'];?></td>
+        <!--<td><?php echo $rents['rprice'];?></td>
+         <td><?php echo $rents['no_of_begs'];?></td>
+         <td><?php echo $rents['metricton'];?></td>
+         <td><?php if($rents['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php if($rents['t_nt']==1){ echo "Cement";} if($rows['t_nt']==2) { echo "Shi cement"; }?></td>
+         <td><?php echo $rents['date_t'];?></td>
+         <td><?php echo $rents['g_name'];?></td>
+         <td><?php echo $rents['other_date'];?></td>
+         <td><?php echo $rents['s_name'];?></td>
+         <td><?php if($rents['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Other";}?></td>       
+         <td><?php echo $rents['challanno']; ?></td>
+       --></tr>
+		<?php  }
+      
+	  */
+	  foreach($sale as $sales){
+		  ?>
+		  <tr><td><?php 
+		  $originalDate = $sales['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		  
+		  echo $newDate;?></td>
+          <td>Sale</td>
+          <td><?php 
+		  $sum=$sum-$sales['no_of_bags'];
+		  echo "-".$sales['no_of_bags'];?></td>
+          <td><?php if($sales['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+          
+          
+          <!--<td><?php if($sales['pay_flow']==1){ echo "Cash";} else if($sales['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>-->
+          <!--<td>-</td>
+          <td><?php echo $sales['prices'];?></td>
+          <td>-</td>-->
+          <td><?php $s=$sales['prices']*$sales['no_of_bags'];echo $s;$credit=$credit+$s; ?></td><td>-</td>
+          <!--<td>Credit</td>-->
+          </tr>
+		  <?php }
+	  
+	  foreach($stockpurchase as $stockpurchases){
+		  
+	  ?><tr>
+      <td><?php 
+	  $originalDate = $stockpurchases['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+	  
+	  echo $newDate; ?></td>
+      <td>Purchase</td>
+      <td><?php 
+	  $sum=$sum+$stockpurchases['no_of_begs'];
+	  echo $stockpurchases['no_of_begs'];?></td>
+      <td><?php if($stockpurchases['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+      <!--<td><?php if($stockpurchases['pay_flow']==1){ echo "Cash";} else if($stockpurchases['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>-->
+      <!--<td><?php echo $stockpurchases['price']; ?></td>
+      <td>-</td>
+      <td>-</td>-->
+      <td>-</td>
+      <td><?php $s=$stockpurchases['price']*$stockpurchases['no_of_begs'];echo $s;$debit=$debit+$s; ?></td>
+      <!--<td>Debit</td>-->
+     <!-- <td><?php echo $stockpurchases['price'];?></td>
+         <td><?php echo $stockpurchases['no_of_begs'];?></td>
+         <td><?php echo $stockpurchases['metricton']; ?></td>
+         <td><?php if($stockpurchases['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php if($stockpurchases['t_nt']==1){ echo "Cement";} if($rows['t_nt']==2) { echo "Shi Cement"; }?></td>
+         <td><?php echo $stockpurchases['date_time'];?></td>
+         <td><?php echo $stockpurchases['g_name'];?></td>
+         <td><?php echo $stockpurchases['other_date']; ?></td>
+         <td></td>
+         <td><?php if($stockpurchases['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Other";}?></td>        
+         
+      -->
+      </tr><?php } foreach($preceived as $preceive){ ?>
+      <tr>
+      <td><?php 
+	  $originalDate = $preceive['date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+	  
+	  echo $newDate; ?></td><td>Payment Received</td><td>-</td><td>-</td><td><?php echo $preceive['price'];$credit=$credit+$preceive['price'];?></td><td>-</td><!--<td>Credit</td>-->
+      </tr><?php }foreach($ppayed as $pay){ ?>
+      
+      <tr>
+      <td><?php 
+	  $originalDate = $pay['date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+	  
+	  echo $newDate; ?></td><td>Payment Paid</td><td>-</td><td>-</td><td>-</td><td><?php echo $pay['price'];$debit=$debit+$pay['price'];?></td><!--<td>Debit</td>-->
+      </tr>
+      
+      
+      
+      <?php } if(empty($stockinrent)&&empty($rent)&&empty($sale)&&empty($stockpurchase)){echo "<tr><td></td><td></td><td>No records found</td><td></td><td></td><td></td></tr>";}else {?>
+      <tr><td>Total:</td><td></td><td><?php echo $sum;  $sum=$sum/20;echo "&nbsp&nbsp(".$sum." metricton)"; ?></td><td>-</td><td><?php echo $credit;?></td><td><?php echo $debit;?></td><td></td></tr>
+      <?php }?></table>
+            
+ </div>
+  
+<a href="<?php echo base_url(); ?>admin/report/csv/dealer" class="btn btn-primary btn-xs">Report</a>
+
+ <?php }if(isset($_POST['submit']) && $_POST['numbers']==20){?>
+ <h4 style="margin-left: 27px; color: #C50808;">Godown Report :</h4>
+ <div id="gdata" class="rep"><table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <th>Sr No.</th>
+         <th>Godown Name</th>
+         <th>Address</th>
+         <th>Phone No.</th>
+         <th>Mobile</th>
+         <th>City</th>
+         <th>State</th>
+         </tr></thead>
+        <?php $i=1;foreach($row as $rows){ ?> <tr>
+         <td><?php echo $i;?></td>
+         <td><?php echo $rows['g_name'];?></td>
+         <td><?php echo $rows['g_address'];?></td>
+         <td><?php echo $rows['ph_no'];?></td>
+         <td><?php echo $rows['mob'];?></td>
+         <td><?php echo $rows['city'];?></td>
+         <td><?php echo $rows['state'];?></td>
+         </tr><?php $i++;} ?></table></div> 
+ 
+ <a href="<?php echo base_url(); ?>admin/report/csv/godown" class="btn btn-primary btn-xs">Report</a>
+ 
+ <?php } if(isset($_POST['submit']) && $_POST['numbers']==3){?>
+ <h4 style="margin-left: 27px; color: #C50808;">Sales Report :</h4>
+ <div id="sdata" class="rep"> <table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <th>Date</th>
+         <th>Dealer Name</th>
+         <th>No. Of Bags</th>
+         <th>OPC/PPC</th>
+         <th>Price</th>
+        <!-- <th>OPC/PPC</th>
+         <th>T/NT</th>
+         <th>Date & Time</th>-->
+         <th>Pay Flow</th>
+         <th>Godown</th>
+         </tr></thead>
+         <?php $i=1;$sum=0; foreach($row as $rows){?>
+         <tr>
+         <!--<td><?php echo $i;?></td>-->
+         <td><?php 
+		  $originalDate = $rows['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		 echo $newDate;
+		 ?></td>
+         <td><?php echo $rows['d_name'];?></td>
+         <td><?php $sum=$sum+$rows['no_of_bags'];echo $rows['no_of_bags'];?></td>
+         <td><?php if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php echo $rows['prices'];?></td>
+         
+        <!-- <td><?php if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php if($rows['t_nt']==1){ echo "Trading";} if($rows['t_nt']==2) { echo "non trading"; }?></td>
+         <td><?php echo $rows['date'];?></td>-->
+         <td><?php if($rows['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+         <td><?php echo $rows['g_name'];?></td></tr>
+        <?php $i++;} if(empty($row)){echo "<tr><td></td><td></td><td>No Records Found</td><td></td><td></td></tr>";}else{?><tr><td>Total:</td><td></td><td><?php echo $sum;?></td><td></td><td></td><td></td></tr><?php } ?> </table>
+        </div>
+        
+<!--<a href="<?php echo base_url(); ?>admin/report/csv/sales" class="btn btn-primary btn-xs">Report</a>
+
+<form method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>admin/report/csv/sales" >
+<input type="hidden" id="sad" placeholder="Start Date" name="startdate"/>
+<input type="hidden" id="ed" placeholder="End Date" name="enddate"/>
+<input type="submit"  class="btn"  name="submit" value="Report" />-->
+
+<?php } if(isset($_POST['submit']) && $_POST['numbers']==4){ ?>
+        <h4 style="margin-left: 27px; color: #C50808;">Stock Purchase Report :</h4>
+ <div id="spdata" class="rep">
+ <table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <th>Date</th>
+         <th>Dealer Name</th>
+         <th>No. Of Bags</th>
+         <th>OPC/PPC</th>
+         <th>Price</th>
+        <!-- <th>OPC/PPC</th>
+         <th>T/NT</th>-->
+         <th>Pay Flow</th>
+         <th>Godown</th>
+         </tr></thead>
+         <?php $i=1;$sum=0;foreach($row as $rows){ ?>
+         <tr>
+         <!--<td><?php echo $i;?></td>-->
+         <td><?php 
+		  $originalDate = $rows['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		 echo $newDate;
+		 ?></td>
+         <td><?php echo $rows['d_name'];?></td>
+         <!--<td><?php echo $rows['price'];?></td>-->
+         <td><?php $sum=$sum+$rows['no_of_begs'];echo $rows['no_of_begs'];?></td>
+         <td><?php if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php echo $rows['price'];?></td>
+         
+         
+        <!-- <td><?php if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php if($rows['t_nt']==1){ echo "Trading";} if($rows['t_nt']==2) { echo "non trading"; }?></td>
+         <td><?php echo $rows['date_time'];?></td>-->
+         <td><?php if($rows['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Credit";}?></td>
+         <td><?php echo $rows['g_name'];?></td></tr> <?php $i++;} if(empty($row)){echo "<tr><td></td><td></td><td>No Records Found</td><td></td><td></td><td></td></tr>";}else{?><tr><td>Total:</td><td></td><td><?php echo $sum;?></td><td></td><td></td></tr><?php } ?></table>
+ </div>
+ 
+ <?php } if(isset($_POST['submit']) && $_POST['numbers']==5){ ?>
+ <h4 style="margin-left: 27px; color: #C50808;">Stock In Rent Report :</h4>
+ <div id="srdata" class="rep">
+ <table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <th>Date</th>
+         <th>Dealer Name</th>
+         <th>No. Of Bags</th>
+         <th>Rent Price</th>
+         <!--<th>OPC/PPC</th>
+         <th>T/NT</th>
+         <th>Date & Time</th>-->
+         <!--<th>Godown</th>-->
+         </tr></thead>
+         <?php $i=1;$sum=0; foreach($row as $rows){ ?>
+         <tr>
+         <!--<td><?php echo $i;?></td>-->
+         <td><?php 
+		  $originalDate = $rows['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		 echo $newDate;
+		 ?></td>
+         <td><?php echo $rows['d_name'];?></td>
+         <td><?php $sum=$sum+$rows['no_of_begs'];echo $rows['no_of_begs'];?></td>
+         <td><?php echo $rows['r_price'];?></td>
+         <!--<td><?php echo $rows['no_of_begs'];?></td>-->
+         <!--<td><?php if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php if($rows['t_nt']==1){ echo "Trading";} if($rows['t_nt']==2) { echo "non trading"; }?></td>
+         <td><?php echo $rows['date'];?></td>-->
+         <!--<td><?php echo $rows['g_name'];?></td>--></tr>
+        <?php $i++; } if(empty($row)){echo "<tr><td></td><td></td><td>No Records Found</td><td></td></tr>";}else{ ?><tr><td>Total:</td><td></td><td><?php echo $sum;?></td><td></td></tr><?php } ?> </table>
+         </div>
+<?php }
+if(isset($_POST['submit']) && $_POST['numbers']==6){
+	
+?>
+<form name="select_cement" method="post" id="select_cement" >
+<div style="text-align:center">Date From:<input type="text" id="datepicker2" name="from"/>
+    Date To:<input type="text" id="datepicker3" name="to"/>
+    <input type="hidden" name="cement" value="1" id="cement" /><br/><br/><br/>
+ <input type="submit"  class="btn" id="src" name="submit1" value="submit" /></div>   
+</form>
+<?php }
+
+if(isset($_POST['submit1']) && $_POST['cement']==1){
+	$sum=$sum_in=0;
+	?>
+<h4 style="margin-left: 27px; color: #C50808;">Shree Cement Report :</h4>
+ <div id="srdata" class="rep">
+ <table class="table table-hover tablesorter">
+      <thead>
+         <tr>
+         <!--<th>Dealer Name</th>-->
+         
+         <th>Date</th>
+         <th>Challan no.</th>
+         <th>Bilty no.</th>
+         
+         
+         <!--<th>Rent Price</th>-->
+         <th>No. Of Bags</th>
+         <th>Party name</th>
+         <!--<th>Metricton</th>-->
+         <!--<th>OPC/PPC</th>
+         <th>T/NT</th>-->
+         <!--<th>Date & Time</th>
+         <th>Godown</th>-->
+         
+        <!-- <th>Date</th>
+         <th>Site Name</th>
+         <th>Payment Flow</th>
+         <th>Challan No.</th>-->
+         </tr>
+<?php $sum=0;
+ //foreach($dealer as $dealers){?>
+ 
+ <?php //print_r($inword);die; 
+	  foreach($inword as $inwords){
+		  ?>
+		  <tr><td><?php 
+		  
+		  
+		  echo date("d-M-Y", strtotime($inwords['date']));?></td>
+          <td>-</td>
+          <td><?php echo $inwords['builtyno']; ?></td>
+          <td><?php 
+		  if (substr($inwords['noofbags'], 0, 1) === '-') {$str=$inwords['noofbags'];
+		   $str = ltrim($str, '-');
+		  //echo $str."----";
+		  $sum=$sum-$str;
+		   }else{ $sum=$sum+$inwords['noofbags'];}
+		  
+		  echo $inwords['noofbags'];?></td><td><?php echo "-";//echo $inwords['d_name'];?></td>
+         <!-- <td><?php echo $inwords['metricton']; ?></td>
+         <td><?php echo $inwords['date'];?></td>
+          <td><?php echo $inwords['g_name'];?></td>-->
+          <!--<td><?php echo $inwords['date'];?></td>-->
+          </tr>
+		  
+		 <?php 
+		 //echo $sum."----";
+		 }
+		 //echo $sum."----";
+	   ?>
+ 
+ 
+ 
+ 
+ 
+<!--<tr>
+        <td><?php echo $dealers['rprice'];?></td>
+         <td><?php 
+		 //$sum=$sum+$dealers['no_of_begs'];
+		 echo $dealers['no_of_begs'];?></td>
+         <td><?php echo $dealers['metricton'];?></td>
+         <!--<td><?php //if($dealers['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php //if($dealers['t_nt']==1){ echo "Cement";} if($rows['t_nt']==2) { echo "Shi cement"; }?></td>-->
+      <!--   <td><?php echo $dealers['date_t'];?></td>
+         <td><?php echo $dealers['g_name'];?></td>
+         <!--<td><?php //echo $dealers['other_date'];?></td>
+         <td><?php //echo $dealers['s_name'];?></td>
+         <td><?php //if($dealers['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Other";}?></td>       
+         <td><?php //echo $dealers['challanno']; ?></td>-->
+       <!--</tr>-->
+        <?php //} 
+		
+		
+		
+		foreach($outward as $rows){
+			 
+		// echo '<pre>';print_r($rows);die;
+		?>
+         <tr>
+         <!--<td><?php //echo $rows['d_name'];?></td>-->
+         <td>
+         <?php 
+		 $originalDate = $rows['other_date'];//"2010-03-21";
+$newDate = date("d-M-Y", strtotime($originalDate));
+		 echo $newDate;?></td>
+         <td><?php echo $rows['challanno'];?></td>
+         <td>-</td>
+         <!--<?php echo $rows['r_price'];?>--></td>
+         <td><?php 
+		 $sum=$sum+$rows['no_of_begs'];
+		 echo $rows['no_of_begs'];?></td>
+         <td><?php echo $rows['d_name'];?></td>
+         <!--<td><?php echo $rows['metricton']; ?></td>-->
+         <!--<td><?php //if($rows['opc_ppc']==0){ echo "OPC";} else { echo "PPC";}?></td>
+         <td><?php //if($rows['t_nt']==1){ echo "Cement";} if($rows['t_nt']==2) { echo "Shi Cement"; }?></td>-->
+         <!--<td><?php echo $rows['date'];?></td>
+         <td><?php echo $rows['g_name'];?></td>-->
+         <!--<td><?php //if($rows['pay_flow']==1){ echo "Cash";} else if($rows['pay_flow']==2){ echo "Cheque";} else { echo "Other";}?></td>-->        
+         <!--<td><?php echo $rows['other_date'];?></td>-->
+      </tr><?php } 
+	  //foreach($inword as $inwords){
+		  ?>
+		  
+		  
+		 <?php 
+		 //echo $sum."----";
+		 //}
+		 //echo $sum."----";
+		 
+		 if(empty($inword)&&empty($outward)){echo "<tr><td></td><td></td><td></td><td>No Records Found</td></tr>";}else{
+	   ?><tr><td>Total:</td><td></td><td><?php echo $sum_in; $sum_in=$sum_in/20; echo "&nbsp &nbsp(".$sum_in." metricton)"; ?></td><td><?php echo $sum; $sum=$sum/20; echo "&nbsp &nbsp(".$sum." metricton)"; ?></td></tr><?php } ?>
+</table>
+<?php
+
+}
+?>
+
+<?php 
+	
+?>
+
+ <script type="text/javascript">
+ 
+ function dt()
+ { 
+  $("#sd").val()=$("#sdate").val();
+ }
+ 
+ function validate()
+ {  
+	//a=$("#sdate").val(); 
+   // b=$("#edate").val(); 
+    //alert(a);
+	if($("#numbers").val() == 0){ 
+	alert("Please select category");
+     return false;
+    } 
+	if($("#numbers").val() == 3){ 
+	
+	/*	if(a=="")
+		{
+		alert("Please select Start Date");
+		return false;
+		}
+		if(b=="")
+		{
+		 alert("Please select End Date");
+		 return false;
+		}*/
+		
+	$("#sd").val()=$("#sdate").val(); 
+	$("#ed").val()=$("#edate").val(); 
+	
+	 } 
+	if($("#numbers").val() == 4){ 
+	
+	/*if(a=="")
+	{
+	alert("Please select Start Date");
+	return false;
+	}
+	if(b=="")
+	{
+	 alert("Please select End Date");
+	 return false;
+		}*/
+   
+    } 
+	if($("#numbers").val() == 5){ 
+	/*if(a=="")
+	{
+	alert("Please select Start Date");
+	return false;
+	}
+	if(b=="")
+	{
+	 alert("Please select End Date");
+	 return false;
+		}*/
+    } 
+}
+
+   $('#numbers').change(function(){ 
+    if($(this).val() == 1){
+      $('#ds').hide();
+    }
+    if($(this).val() == 2){
+       $('#ds').hide();
+    }
+	 if($(this).val() == 3){
+      $('#ds').show();
+    }
+	 if($(this).val() == 4){
+       $('#ds').show();
+    }
+	 if($(this).val() == 5){
+       $('#ds').show();
+    }
+
+});
+
+ /*$('#add').click(function(){
+	 $('#adduser').show();
+ });
+ 
+ $('#close').click(function(){
+	 $('#adduser').hide();
+ });*/
+ 
+ 
+ function change_val(num){
+ var val = $('#selectr').val();
+ $('#numb').val(num);	
+ $('#select_deal').submit();
+
+ }
+  function change_val1(num){
+ var val = $('#selectg').val();
+ $('#numbe').val(num);	
+ $('#select_godown').submit();
+
+ }
+ 
+ function nextgodown(){
+ if($('#selectg').val()=="first"){alert("Select a Godown");}else{
+	 $('#select_godown').submit();
+	 }
+ //alert($('#selectg').val());
+ }
+ 
+ 
+ function nextdealer(){
+ if($('#selectr').val()=="first"){alert("Select a Dealer");}else{
+	 $('#select_deal').submit();
+	 }
+ //alert($('#selectg').val());
+ }
+ 
+ 
+ 
+ $(document).ready(
+  
+  /* This is the function that will get executed after the DOM is fully loaded */
+  function () {
+    $( "#datepicker" ).datepicker({
+      //defaultDate:new Date(),
+	  changeMonth: true,//this option for allowing user to select month
+      changeYear: true //this option for allowing user to select from year range
+    });
+	
+	$( "#datepicker" ).datepicker(
+		'setDate', 'today'
+		);
+  
+  
+
+  
+  /* This is the function that will get executed after the DOM is fully loaded */
+
+    $( "#datepicker1" ).datepicker({
+      changeMonth: true,//this option for allowing user to select month
+      changeYear: true //this option for allowing user to select from year range
+    });
+  $( "#datepicker1" ).datepicker(
+		'setDate', 'today'
+		);
+  
+
+
+  /* This is the function that will get executed after the DOM is fully loaded */
+      $( "#datepicker2" ).datepicker({
+      changeMonth: true,//this option for allowing user to select month
+      changeYear: true //this option for allowing user to select from year range
+    });
+	$( "#datepicker2" ).datepicker(
+		'setDate', 'today'
+		);
+	
+  }
+  
+
+);
+ $(document).ready(
+  
+  /* This is the function that will get executed after the DOM is fully loaded */
+  function () {
+    $( "#datepicker3" ).datepicker({
+      changeMonth: true,//this option for allowing user to select month
+      changeYear: true //this option for allowing user to select from year range
+    });
+	$( "#datepicker3" ).datepicker(
+		'setDate', 'today'
+		);
+	
+  }
+  
+
+);
+ </script>
+ 

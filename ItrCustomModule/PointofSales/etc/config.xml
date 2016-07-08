@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <ItrCustomModule_PointofSales>
+      <version>0.1.0</version>
+    </ItrCustomModule_PointofSales>
+  </modules>
+  <global>
+	<models>
+		<pointofsales>
+			<class>ItrCustomModule_PointofSales_Model</class>
+			<resourceModel>pointofsales_mysql4</resourceModel>
+		</pointofsales>
+		<pointofsales_mysql4>
+			<class>ItrCustomModule_PointofSales_Model_Mysql4</class>
+			<entities>
+				<pointofsales>
+					<table>multipayment</table>
+					<table>pos_credit_memo</table>
+					<table>pos_sales_report</table>
+					<table>temporary_history</table>
+					<table>temporary_product_history</table>
+				</pointofsales>
+			</entities>
+		</pointofsales_mysql4>
+	</models>
+	<resources>
+		<itrcustommodule_pointofsales_setup>
+			<setup>
+				<module>ItrCustomModule_PointofSales</module>
+			</setup>
+			<connection>
+				<use>core_setup</use>
+			</connection>
+		</itrcustommodule_pointofsales_setup>
+		<itrcustommodule_pointofsales_write>
+			<connection>
+				<use>core_write</use>
+			</connection>
+		</itrcustommodule_pointofsales_write>
+		<itrcustommodule_pointofsales_read>
+			<connection>
+				<use>core_read</use>
+			</connection>
+		</itrcustommodule_pointofsales_read>
+	</resources>
+	<helpers>
+		<pointofsales>
+			<class>ItrCustomModule_PointofSales_Helper</class>
+		</pointofsales>
+	</helpers>
+	<blocks>
+	  <pointofsales>
+		<class>ItrCustomModule_PointofSales_Block</class>
+	  </pointofsales>
+	</blocks>	
+  	<events>
+		<payment_method_is_active>
+			<observers>
+				<paymentfilter_payment_method_is_active>
+				<type>singleton</type>
+				<class>pointofsales/observer</class>
+				<method>filterpaymentmethod</method>
+				</paymentfilter_payment_method_is_active>
+			</observers>
+		</payment_method_is_active>
+    </events>
+  </global>
+  <default>
+		<payment>
+			<pointofsales>
+				<model>pointofsales/standard</model>
+				<active>1</active>
+				<!--<order_status>pending</order_status>-->
+				<title>Multiple Payment</title>
+				<!--<payment_action>sale</payment_action>
+				<submit_url>https://someurl.com</submit_url>
+				<merchant_id>Insert merchant id</merchant_id>-->
+				<allowspecific>0</allowspecific>
+				<sort_order>1</sort_order>
+			</pointofsales>
+			<voucher>
+				<model>pointofsales/voucher</model>
+				<active>1</active>
+				<order_status>pending</order_status>
+				<title>Voucher</title>
+				<payment_action>sale</payment_action>
+				<submit_url>https://someurl.com</submit_url>
+				<merchant_id>Insert merchant id</merchant_id>
+				<allowspecific>0</allowspecific>
+				<sort_order>1</sort_order>
+			</voucher>
+		</payment>
+		<pos>
+			<pointofsales>
+				<receipt_header>7 Nendrum Park Jubilee Road Newtownards BT23 4YH T: 02891 246356 www.itradicals.com</receipt_header>
+				
+				<receipt_footer>VAT: GB 207 943 892</receipt_footer>
+				<receipt_width>3</receipt_width>
+				<receipt_margin_left>5</receipt_margin_left>
+				<store_name>Itradicals</store_name>
+			</pointofsales>
+			<credit_memo>
+				<ticket_header>7 Nendrum Park Jubilee Road Newtownards BT23 4YH T: 02891 246356 www.itradicals.com</ticket_header>
+				<ticket_footer>VAT: GB 207 943 892</ticket_footer>
+				<exp_date_week>2</exp_date_week>
+				<exp_date_month>1</exp_date_month>
+			</credit_memo>
+			<notifications>
+				<guest_email>None</guest_email>
+				<guest_fname>N/A</guest_fname>
+				<guest_lname>N/A</guest_lname>
+				<guest_address1>N/A</guest_address1>
+				<guest_address2>N/A</guest_address2>
+				<guest_city>N/A</guest_city>
+				<guest_zip>N/A</guest_zip>
+				<guest_region>N/A</guest_region>
+				<guest_phone>N/A</guest_phone>
+				<guest_fax>N/A</guest_fax>
+				<default_pagging_value>10</default_pagging_value>
+				<view_pagging_values>10,20,30</view_pagging_values>
+			</notifications>
+		</pos>
+  </default>
+  <admin>
+	<routers>
+	  <pointofsales>
+	    <use>admin</use>
+		<args>
+		  <module>ItrCustomModule_PointofSales</module>
+		  <frontName>admin_pointofsales</frontName>
+		</args>
+	  </pointofsales>
+	</routers>
+  </admin>
+  
+  <adminhtml>
+	<menu>
+	  <!--Menu under report menu-->
+	  <report module="adminhtml">   
+		<sort_order>100</sort_order>
+		<children>
+		  <pointofsalesreport module="pointofsales">
+			<title>POS Sales Report</title>
+			<sort_order>0</sort_order>
+			<action>admin_pointofsales/adminhtml_pointofsalesreport</action>
+		  </pointofsalesreport>
+		  <pointofsalesexitrates module="pointofsales">
+			<title>Exit rates by Product</title>
+			<sort_order>0</sort_order>
+			<action>admin_pointofsales/adminhtml_pointofsalesexitrates</action>
+		  </pointofsalesexitrates>
+		  <pointofsalesexitratesbymanufacture module="pointofsales">
+			<title>Exit rates by Manufacturer</title>
+			<sort_order>0</sort_order>
+			<action>admin_pointofsales/adminhtml_pointofsalesexitratesbymanufacture</action>
+		  </pointofsalesexitratesbymanufacture>
+		</children>
+	  </report>
+	  
+	  
+	  <!--Menu under point of sales menu-->
+	  <pointofsales module="pointofsales">
+		<title>PointofSales</title>
+		<sort_order>103</sort_order>
+		<children>
+		  <pointofsalesbackend module="pointofsales">
+			<title>Point Of Sales</title>
+			<sort_order>0</sort_order>
+			<action>admin_pointofsales/adminhtml_pointofsalesbackend</action>
+		  </pointofsalesbackend>
+		</children>
+	  </pointofsales>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<pointofsales translate="title" module="pointofsales">
+			  <title>PointOFSales</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+				  <pointofsalesbackend translate="title">
+					<title>Point sOf Sales</title>
+				  </pointofsalesbackend>
+			  </children>
+			</pointofsales>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	
+	<translate>
+		<modules>
+			<ItrCustomModule_PointofSales>
+				<files>
+					<default>ItrCustomModule_PointofSales.csv</default>
+				</files>
+			</ItrCustomModule_PointofSales>
+		</modules>
+	</translate>
+	
+	<layout>
+	  <updates>
+		<pointofsales>
+		  <file>pointofsales.xml</file>
+		</pointofsales>
+	  </updates>
+	</layout>
+  </adminhtml>
+  
+  <frontend>
+  	<routers>
+		<routeurfrontend>
+			<use>standard</use>
+				<args>
+					<module>ItrCustomModule_PointofSales</module>
+					<frontName>pointofsales</frontName>
+				</args>
+			</routeurfrontend>
+		</routers>
+  </frontend>
+</config> 
